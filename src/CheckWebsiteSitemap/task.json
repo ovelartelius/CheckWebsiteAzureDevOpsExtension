@@ -1,0 +1,61 @@
+{
+    "id": "67841cb9-f2bd-468b-96a5-958070916b42",
+    "name": "CheckWebsiteSitemap",
+    "friendlyName": "Check website sitemap",
+    "description": "Check the website sitemap.xml and do a request against all URLs,",
+    "helpUrl": "https://github.com/ovelartelius/ps-script/blob/master/CheckWebsite_extension/documentation/CheckWebsiteSitemap.md",
+    "helpMarkDown": "[Extension page](https://github.com/ovelartelius/ps-script/blob/master/CheckWebsite_extension)[Learn more about this task](https://github.com/ovelartelius/ps-script/blob/master/CheckWebsite_extension/documentation/CheckWebsiteSitemap.md)",
+    "category": "Test",
+    "visibility": [
+        "Build"
+    ],
+    "author": "Ove Lartelius",
+    "version": {
+        "Major": 0,
+        "Minor": 0,
+        "Patch": 6
+    },
+    "groups": [
+        {
+            "name": "Settings",
+            "displayName": "Script settings",
+            "isExpanded": true
+        },
+        {
+            "name": "ErrorHandlingOptions",
+            "displayName": "Error handling options",
+            "isExpanded": false
+        }
+    ],
+    "releaseNotes": "Created the task.",
+    "minimumAgentVersion": "2.134.0",
+    "inputs": [
+        {
+            "name": "SiteUrl",
+            "type": "string",
+            "label": "Site URL",
+            "required": true,
+            "defaultValue": "",
+            "helpMarkDown": "The URL to your website that you wnt to test. Ex: https://www.epinova.no",
+            "groupName": "Settings"
+        },
+        {
+            "name": "ResultFilePath",
+            "type": "string",
+            "label": "Result file path",
+            "required": true,
+            "defaultValue": "$(System.DefaultWorkingDirectory)",
+            "helpMarkDown": "The file path where the result report will be placed.",
+            "groupName": "Settings"
+        }
+    ],
+    "instanceNameFormat": "Check website $(SiteUrl)",
+    "execution": {
+        "PowerShell3": {
+            "target": "CheckWebsiteSitemap.ps1"
+        }
+    },
+    "messages": {
+        "PS_TM_ParseSessionVariablesValueNotFound": "Parsing operation failed. ErrorMessage: 'value not found', Token: '{0}', CurrentKey: '{1}'"
+    }
+}

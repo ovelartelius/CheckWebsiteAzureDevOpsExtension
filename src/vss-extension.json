@@ -1,0 +1,77 @@
+{
+    "manifestVersion": 1,
+    "id": "check-website-extension",
+    "publisher": "epinova-sweden",
+    "version": "0.0.9",
+    "name": "Check website (BETA)",
+    "description": "Task(s) that test a website. Result will be reported in a JUnit report.",
+    "public": false,
+    "icons":{
+        "default": "img/check-website.png"
+    },
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],
+    "categories": [
+        "Azure Pipelines"
+    ],
+    "tags":[
+        "Test",
+        "Epinova",
+        "Continuous Integration",
+        "Continuous Delivery",
+        "Build",
+        "Azure Pipelines"
+    ],
+    "branding":{
+        "color": "rgb(255,255,255)",
+        "theme": "light"
+    },
+    "content": {
+        "details": {
+            "path": "overview.md"
+        },
+        "license": {
+            "path": "license.md"
+        }
+    },
+    "links": {
+         "repository": {
+             "uri": "https://github.com/ovelartelius/ps-scripts/"
+         },
+        "company": {
+            "uri": "https://www.epinova.se"
+        },
+        "contact": {
+            "uri": "mailto:info@epinova.se"
+        }
+    },
+    "repository": {
+        "type": "git",
+        "uri": "https://github.com/ovelartelius/ps-scripts"
+    },
+    "contributions": [
+        {
+            "id": "check-website-sitemap-buildtask",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "CheckWebsiteSitemap"
+            }
+        }
+    ],
+    "files": [
+        {
+            "path": "CheckWebsiteSitemap"
+        },
+        {
+            "path": "node_modules/vss-web-extension-sdk/lib",
+            "addressable": true,
+            "packagePath": "lib"
+        }
+    ]
+}
