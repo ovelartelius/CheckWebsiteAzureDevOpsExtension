@@ -68,7 +68,8 @@ try {
     $testTimer.Stop()
     
     $testTimerSeconds = $testTimer.Elapsed.TotalSeconds
-    PrintTestResultXml -testResultList $testResultList -baseUrl $siteUrl -testTimerSeconds $testTimerSeconds -filePath $resultFilePath
+    $testResultFileName = "TEST-CheckSitemap_€hostname_result_€dateTime.xml"
+    PrintTestResultXml -testResultFileName $testResultFileName -testResultList $testResultList -baseUrl $siteUrl -testTimerSeconds $testTimerSeconds -filePath $resultFilePath
     
     ####################################################################################
 
