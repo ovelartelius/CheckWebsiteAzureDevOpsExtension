@@ -1,0 +1,84 @@
+{
+    "id": "aa51f0eb-3bae-4ee6-8d09-bdd195e8fc96",
+    "name": "CheckEpiserverWebsite",
+    "friendlyName": "Check Episerver website",
+    "description": "Check Episerver website for things need to be fixed",
+    "helpUrl": "https://github.com/ovelartelius/CheckWebsiteAzureDevOpsExtension/blob/master/README.md",
+    "helpMarkDown": "[Extension page](https://github.com/ovelartelius/CheckWebsiteAzureDevOpsExtension/blob/master/README.md)",
+    "category": "Test",
+    "visibility": [
+        "Build"
+    ],
+    "author": "Ove Lartelius",
+    "version": {
+        "Major": 0,
+        "Minor": 0,
+        "Patch": 1
+    },
+    "groups": [
+        {
+            "name": "Settings",
+            "displayName": "Script settings",
+            "isExpanded": true
+        },
+        {
+            "name": "Tests",
+            "displayName": "Tests",
+            "isExpanded": true
+        },
+        {
+            "name": "ErrorHandlingOptions",
+            "displayName": "Error handling options",
+            "isExpanded": false
+        }
+    ],
+    "releaseNotes": "Created the task.",
+    "minimumAgentVersion": "2.134.0",
+    "inputs": [
+        {
+            "name": "SiteUrl",
+            "type": "string",
+            "label": "Site URL",
+            "required": true,
+            "defaultValue": "",
+            "helpMarkDown": "The URL to your website that you want to test. Ex: https://www.epinova.no",
+            "groupName": "Settings"
+        },
+        {
+            "name": "ResultFilePath",
+            "type": "string",
+            "label": "Result file path",
+            "required": true,
+            "defaultValue": "$(System.DefaultWorkingDirectory)",
+            "helpMarkDown": "The file path where the result report will be placed.",
+            "groupName": "Settings"
+        },
+        {
+            "name": "CheckLicense",
+            "type": "boolean",
+            "label": "Check the license",
+            "required": true,
+            "defaultValue": "true",
+            "helpMarkDown": "Will check the website if it has a correct license.",
+            "groupName": "Tests"
+        },
+        {
+            "name": "CheckRobotsTxt",
+            "type": "boolean",
+            "label": "Check robots.txt",
+            "required": true,
+            "defaultValue": "true",
+            "helpMarkDown": "Check if the website has a robots.txt, that it does not Deny all, and that it has a sitemap.xml reference.",
+            "groupName": "Tests"
+        }
+    ],
+    "instanceNameFormat": "Check Episerver website $(SiteUrl)",
+    "execution": {
+        "PowerShell3": {
+            "target": "CheckEpiserverWebsite.ps1"
+        }
+    },
+    "messages": {
+        "PS_TM_ParseSessionVariablesValueNotFound": "Parsing operation failed. ErrorMessage: 'value not found', Token: '{0}', CurrentKey: '{1}'"
+    }
+}
