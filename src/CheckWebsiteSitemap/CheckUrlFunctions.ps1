@@ -336,6 +336,8 @@ function PrintTestResultXml{
     [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true)]
+        [string] $testResultFileName,
+        [Parameter(Mandatory = $true)]
         [object] $testResultList,
         [Parameter(Mandatory = $true)]
         [string] $baseUrl,
@@ -353,9 +355,18 @@ function PrintTestResultXml{
     if ($null -ne $filePath -and $filePath.Length -ne 0 -and $filePath.EndsWith('\') -ne $true){
         $filePath = $filePath + "\"
     }
+    if ($testResultFileName.Contains("€hostname") -eq $false){
+        Write-Error "Param testResultFileName does not contains €hostname."
+    }
+    if ($testResultFileName.Contains("€dateTime") -eq $false){
+        Write-Error "Param testResultFileName does not contains €dateTime."
+    }
 
     $dateTime = Get-Date -Format "yyyyMMddTHHmmss"
-    $fileName = $filePath + "TEST-CheckWebsite_$($hostname)_result_$dateTime.xml"
+    $testResultFileName = $testResultFileName -replace "€hostname", $hostname
+    $testResultFileName = $testResultFileName -replace "€dateTime", $dateTime
+
+    $fileName = $filePath + $testResultFileName
     Write-Host "Create result file: $fileName"
     $xmlWriter = New-Object System.XMl.XmlTextWriter($fileName,$Null)
     $xmlWriter.Formatting = 'Indented'
