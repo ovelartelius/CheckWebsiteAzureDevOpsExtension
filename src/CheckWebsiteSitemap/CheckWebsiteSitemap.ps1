@@ -91,9 +91,13 @@ try {
     $testTimer.Start()
     $lastWrittenProcentage = 0
     foreach ($testUrl in $sitemapUrls){
-        $testUrlResult = $spider.PsCheckUrl($testUrl, $userAgent)
-        Write-Verbose "$($testUrlResult.Url) - $($testUrlResult.StatusCode)"
-        [void]$testResultArray.Add($testUrlResult)
+        try {
+            $testUrlResult = $spider.PsCheckUrl($testUrl, $userAgent)
+            Write-Verbose "$($testUrlResult.Url) - $($testUrlResult.StatusCode)"
+            [void]$testResultArray.Add($testUrlResult)
+        } catch {
+            Write-Warning "Could not handle $testUrl"
+        }
     
         $procentageComplete = [math]::Truncate(($iterator / $totalNumber) * 100)
         if ($procentageComplete -ne $procentageCompleteOld){
@@ -114,7 +118,7 @@ try {
     
     $testResultFileName = "TEST-CheckSitemap_€hostname_result_€dateTime.xml"
     PrintSitemapTestResultXml -testResultFileName $testResultFileName -testResultList $testResultArray -baseUrl $siteUrl -testTimerSeconds $testTimerSeconds -filePath $resultFilePath
-    
+
     # Write-Host "Inputs:"
     # Write-Host "SiteUrl: $siteUrl"
     # Write-Host "Result file path: $resultFilePath"
