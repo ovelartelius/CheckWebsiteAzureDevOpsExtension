@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "check-website-extension",
     "publisher": "epinova-sweden",
-    "version": "0.0.10",
+    "version": "0.0.11",
     "name": "Check website (BETA)",
     "description": "Task(s) that test a website. Result will be reported in a JUnit report.",
     "public": false,
