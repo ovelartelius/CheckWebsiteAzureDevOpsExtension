@@ -40,6 +40,7 @@ try {
     #-------------------------------------------------------
     $testStopwatch = [Diagnostics.Stopwatch]::StartNew()
     $testStopwatch.Start()
+
     $testResult = [TestResult]::New();
     $testResult.TestName = "Validate site URL"
     $validUrl = $spider.ValidateUrl($siteUrl)
@@ -48,6 +49,7 @@ try {
         Write-Warning $testErrorDescription
         $testResult.Error = $true
         $testResult.Description = $testErrorDescription
+        $siteUrl = "https://erroneous.com"
     } else {
         $testResult.Error = $false
     }
