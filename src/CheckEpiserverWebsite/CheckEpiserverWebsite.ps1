@@ -45,7 +45,7 @@ try {
     $validUrl = $spider.ValidateUrl($siteUrl)
     if ($false -eq $validUrl) {
         $testErrorDescription = "Provided URL $siteUrl is not a valid URI."
-        Write-Wrning $testErrorDescription
+        Write-Warning $testErrorDescription
         $testResult.Error = $true
         $testResult.Description = $testErrorDescription
     } else {
@@ -60,7 +60,7 @@ try {
     $totalStopwatch.Stop()
     $testTimerSeconds = $totalStopwatch.Elapsed.TotalSeconds
     
-    $testResultFileName = "TEST-CheckEpiserverSitemap_€hostname_result_€dateTime.xml"
+    $testResultFileName = "TEST-CheckEpiserverWebsite_€hostname_result_€dateTime.xml"
     PrintGenericTestResultXml -testResultFileName $testResultFileName -testResultList $list -baseUrl $siteUrl -testTimerSeconds $testTimerSeconds -filePath $resultFilePath
 
     
