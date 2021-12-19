@@ -193,11 +193,11 @@ function PrintGenericTestResultXml{
 
     $totalNumber = 0
     if ($null -ne $testResultList){
-        if ($testResultList -is [system.array]){
+        #if ($testResultList -is [system.array]){
             $totalNumber = $testResultList.Count
-        } else {
-            $totalNumber = 1
-        }
+        #} else {
+        #    $totalNumber = 1
+        #}
     }
     $iterator = 1
     $procentageCompleteOld = 0
@@ -226,8 +226,11 @@ function PrintGenericTestResultXml{
             $xmlWriter.WriteEndElement() #/testcase
         }
 
+        #$iterator
+        #$totalNumber
         $procentageComplete = [math]::Truncate(($iterator / $totalNumber) * 100)
         if ($procentageComplete -ne $procentageCompleteOld){
+            #$procentageComplete
             Write-Progress -Activity "Write test result XML" -Status "$procentageComplete% Complete:" -PercentComplete $procentageComplete;
             $procentageCompleteOld = $procentageComplete
         }

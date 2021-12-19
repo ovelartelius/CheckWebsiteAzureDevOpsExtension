@@ -58,7 +58,6 @@ try {
     $list.Add($testResult)
     #-------------------------------------------------------
 
-
     $totalStopwatch.Stop()
     $testTimerSeconds = $totalStopwatch.Elapsed.TotalSeconds
     
