@@ -1,0 +1,19 @@
+name: Build and publish Azure DevOps extension
+
+on:
+  #push:
+  #  branches:
+  #    - release/*
+  pull_request:
+    branches:
+      - release/*
+  workflow_dispatch: # Allow manuel trigger of the workflow
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the Repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
