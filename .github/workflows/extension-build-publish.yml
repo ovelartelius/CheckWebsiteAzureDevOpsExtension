@@ -20,8 +20,6 @@ jobs:
 
       - name: Get extension version
         shell: pwsh
-        # env:
-        #   MY_SECRET: ${{ secrets.MY_SECRET }}
         run: |
           $version = (Get-Content src/vss-extension.json) -join "`n" | ConvertFrom-Json | Select -ExpandProperty "version"
           $buildNumber = $env:GITHUB_RUN_NUMBER
@@ -37,21 +35,21 @@ jobs:
       - name: Install tfx-cli
         run: npm install -g tfx-cli
 
-      - name: tfx extension create help
-        run: tfx extension create --help
+      # - name: tfx extension create help
+      #   run: tfx extension create --help
 
-      - name: Set Environment Variable
+      - name: Set extension filename variable
         run: echo "VsixFileName=checkwebsite-extension-$ExtensionVersion.vsix" >> $GITHUB_ENV
 
-      - name: Show VsixFileName
-        run: echo "The value of VsixFileName is $VsixFileName"
+      # - name: Show VsixFileName
+      #   run: echo "The value of VsixFileName is $VsixFileName"
 
       # Step 5: Package the extension
       - name: Package Extension
         run: tfx extension create --root "src" --manifests "vss-extension.json" --outputPath $VsixFileName --json
 
-      - name: tfx extension publish help
-        run: tfx extension publish --help
+      # - name: tfx extension publish help
+      #   run: tfx extension publish --help
 
       # Step 6: Publish to Visual Studio Marketplace
       - name: Publish Extension to Visual Studio Marketplace
@@ -64,3 +62,8 @@ jobs:
             --service-url https://marketplace.visualstudio.com \
             --vsix $VsixFileName \
             --token $PERSONAL_ACCESS_TOKEN
+
+      - name: Create Git Tag
+        run: |
+          git tag "v${ExtensionVersion}"
+          git push origin "v${ExtensionVersion}"
