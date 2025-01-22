@@ -37,6 +37,9 @@ jobs:
       - name: Install tfx-cli
         run: npm install -g tfx-cli #npm install -g tfx-cli@0.18.x
 
+      - name: tfx extension create help
+        run: tfx extension create --help
+        
       # Step 5: Package the extension
       - name: Package Extension
         run: tfx extension create \
