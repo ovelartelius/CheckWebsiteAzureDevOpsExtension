@@ -1,12 +1,7 @@
-name: Build and publish Azure DevOps extension
+name: Build and validate Azure DevOps extension
 
 on:
-  #push:
-  #  branches:
-  #    - release/*
-  pull_request:
-    branches:
-      - release/*
+  push:
   workflow_dispatch: # Allow manuel trigger of the workflow
 
 jobs:
@@ -48,24 +43,5 @@ jobs:
 
       # Step 5: Package the extension
       - name: Package Extension
-        run: tfx extension create --root "src" --manifests "vss-extension.json" --outputPath $VsixFileName --json
+        run: tfx extension isvalid --root "src" --manifests "vss-extension.json" --outputPath $VsixFileName --json
 
-      # - name: tfx extension publish help
-      #   run: tfx extension publish --help
-
-      # Step 6: Publish to Visual Studio Marketplace
-      - name: Publish Extension to Visual Studio Marketplace
-        env:
-          PUBLISHER_ID: ${{ secrets.EPINOVA_VS_MARKETPLACE_PUBLISHER_ID }}
-          PERSONAL_ACCESS_TOKEN: ${{ secrets.EPINOVA_VS_MARKETPLACE_PAT }}
-        run: |
-          tfx extension publish \
-            --publisher $PUBLISHER_ID \
-            --service-url https://marketplace.visualstudio.com \
-            --vsix $VsixFileName \
-            --token $PERSONAL_ACCESS_TOKEN
-
-      - name: Create Git Tag
-        run: |
-          git tag "v${VERSION}"
-          git push origin "v${VERSION}"
