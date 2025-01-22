@@ -18,7 +18,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Execute PowerShell Script
+      - name: Get extension version
         shell: pwsh
         # env:
         #   MY_SECRET: ${{ secrets.MY_SECRET }}
@@ -28,6 +28,13 @@ jobs:
           $extVersion = "v$version-$buildNumber"
           Write-Host "Try to set ExtensionVersion to $extVersion"
           Add-Content -Path $env:GITHUB_ENV -Value "ExtensionVersion=$extVersion"
+
+      - name: Copy scripts
+        shell: pwsh
+        # env:
+        #   MY_SECRET: ${{ secrets.MY_SECRET }}
+        run: |
+          ./BuildScripts/CopyScripts.ps1
 
       # # Step 2: Set up Node.js environment
       # - name: Set up Node.js
