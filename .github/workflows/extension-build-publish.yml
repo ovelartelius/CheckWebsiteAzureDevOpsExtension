@@ -35,12 +35,12 @@ jobs:
           ./BuildScripts/CopyScripts.ps1
 
       - name: Install tfx-cli
-        run: npm install -g tfx-cli@0.17.x
+        run: npm install -g tfx-cli@0.8.x
 
       # Step 5: Package the extension
       - name: Package Extension
         run: tfx extension create \
-          --manifest src/vss-extension.json \
+          --manifests src/vss-extension.json \
           --json
 
       # # Step 2: Set up Node.js environment
