@@ -18,26 +18,36 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 2: Set up Node.js environment
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16' # Adjust based on your project's requirements
+      - name: Execute PowerShell Script
+        shell: pwsh
+        env:
+          MY_SECRET: ${{ secrets.MY_SECRET }}
+        run: |
+          $version = (Get-Content vss-extension.json) -join "`n" | ConvertFrom-Json | Select -ExpandProperty "version"
+          $extVersion = "v$version-$(Build.BuildNumber)"
+          Write-Host "Try to set ExtensionVersion to $extVersion"
+          Add-Content -Path $env:GITHUB_ENV -Value "ExtensionVersion=$extVersion"
 
-      - name: Install tfx-cli
-        run: npm install -g tfx-cli@0.17.x
+      # # Step 2: Set up Node.js environment
+      # - name: Set up Node.js
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: '16' # Adjust based on your project's requirements
 
-      # Step 3: Install dependencies
-      - name: Install dependencies
-        run: npm install
+      # - name: Install tfx-cli
+      #   run: npm install -g tfx-cli@0.17.x
 
-      # Step 4: Build the extension
-      - name: Build Azure DevOps Extension
-        run: npm run build # Update if your build script is different
+      # # Step 3: Install dependencies
+      # - name: Install dependencies
+      #   run: npm install
 
-      # Step 5: Package the extension
-      - name: Package Extension
-        run: tfx extension create --manifest-globs src/vss-extension.json
+      # # Step 4: Build the extension
+      # - name: Build Azure DevOps Extension
+      #   run: npm run build # Update if your build script is different
+
+      # # Step 5: Package the extension
+      # - name: Package Extension
+      #   run: tfx extension create --manifest-globs src/vss-extension.json
 
       # Step 6: Publish to Visual Studio Marketplace
       #- name: Publish Extension to Visual Studio Marketplace
