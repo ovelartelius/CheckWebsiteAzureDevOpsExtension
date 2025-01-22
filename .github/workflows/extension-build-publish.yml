@@ -62,5 +62,5 @@ jobs:
           tfx extension publish \
             --publisher $PUBLISHER_ID \
             --service-url https://marketplace.visualstudio.com \
-            --vsix-file $VsixFileName \
+            --vsix $VsixFileName \
             --token $PERSONAL_ACCESS_TOKEN
