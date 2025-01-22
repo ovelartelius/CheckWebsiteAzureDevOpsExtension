@@ -35,35 +35,23 @@ jobs:
           ./BuildScripts/CopyScripts.ps1
 
       - name: Install tfx-cli
-        run: npm install -g tfx-cli #npm install -g tfx-cli@0.18.x
+        run: npm install -g tfx-cli
 
       - name: tfx extension create help
         run: tfx extension create --help
 
+      - name: Set Environment Variable
+        run: echo "VsixFileName=checkwebsite-extension-$ExtensionVersion.vsix" >> $GITHUB_ENV
+
+      - name: Show VsixFileName
+        run: echo "The value of VsixFileName is $VsixFileName"
+
       # Step 5: Package the extension
       - name: Package Extension
-        run: tfx extension create --root "src" --manifests "vss-extension.json" --outputPath "checkwebsite-extension-$ExtensionVersion.vsix" --json
+        run: tfx extension create --root "src" --manifests "vss-extension.json" --outputPath $VsixFileName --json
 
-      # # Step 2: Set up Node.js environment
-      # - name: Set up Node.js
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: '16' # Adjust based on your project's requirements
-
-      # - name: Install tfx-cli
-      #   run: npm install -g tfx-cli@0.17.x
-
-      # # Step 3: Install dependencies
-      # - name: Install dependencies
-      #   run: npm install
-
-      # # Step 4: Build the extension
-      # - name: Build Azure DevOps Extension
-      #   run: npm run build # Update if your build script is different
-
-      # # Step 5: Package the extension
-      # - name: Package Extension
-      #   run: tfx extension create --manifest-globs src/vss-extension.json
+      - name: tfx extension publish help
+        run: tfx extension publish --help
 
       # Step 6: Publish to Visual Studio Marketplace
       - name: Publish Extension to Visual Studio Marketplace
@@ -74,5 +62,5 @@ jobs:
           tfx extension publish \
             --publisher $PUBLISHER_ID \
             --service-url https://marketplace.visualstudio.com \
-            --vsix-file *.vsix \
+            --vsix-file $VsixFileName \
             --token $PERSONAL_ACCESS_TOKEN
