@@ -35,7 +35,7 @@ jobs:
           ./BuildScripts/CopyScripts.ps1
 
       - name: Install tfx-cli
-        run: npm install -g tfx-cli@0.8.x
+        run: npm install -g tfx-cli #npm install -g tfx-cli@0.18.x
 
       # Step 5: Package the extension
       - name: Package Extension
