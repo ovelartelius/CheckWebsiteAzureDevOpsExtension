@@ -31,10 +31,18 @@ jobs:
 
       - name: Copy scripts
         shell: pwsh
-        # env:
-        #   MY_SECRET: ${{ secrets.MY_SECRET }}
         run: |
           ./BuildScripts/CopyScripts.ps1
+
+      - name: Install tfx-cli
+        run: npm install -g tfx-cli@0.17.x
+
+      # Step 5: Package the extension
+      - name: Package Extension
+        run: tfx extension create \
+          --manifest-globs vss-extension.json \
+          --root src \
+          --json
 
       # # Step 2: Set up Node.js environment
       # - name: Set up Node.js
