@@ -27,7 +27,7 @@ jobs:
           $buildNumber = $env:GITHUB_RUN_NUMBER
           $extVersion = "v$version-$buildNumber"
           Write-Host "Try to set ExtensionVersion to $extVersion"
-          Add-Content -Path $env:ExtensionVersion -Value $extVersion
+          Add-Content -Path $env:GITHUB_ENV -Value "ExtensionVersion=$extVersion"
 
       - name: Copy scripts
         shell: pwsh
@@ -42,7 +42,7 @@ jobs:
 
       # Step 5: Package the extension
       - name: Package Extension
-        run: tfx extension create --root "src" --manifests "vss-extension.json" --outputPath "checkwebsite-extension-$env:ExtensionVersion.vsix" --json
+        run: tfx extension create --root "src" --manifests "vss-extension.json" --outputPath "checkwebsite-extension-$ExtensionVersion.vsix" --json
 
       # # Step 2: Set up Node.js environment
       # - name: Set up Node.js
