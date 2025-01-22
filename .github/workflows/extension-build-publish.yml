@@ -24,7 +24,8 @@ jobs:
         #   MY_SECRET: ${{ secrets.MY_SECRET }}
         run: |
           $version = (Get-Content src/vss-extension.json) -join "`n" | ConvertFrom-Json | Select -ExpandProperty "version"
-          $extVersion = "v$version-$(Build.BuildNumber)"
+          $buildNumber = $env:GITHUB_RUN_NUMBER
+          $extVersion = "v$version-$buildNumber"
           Write-Host "Try to set ExtensionVersion to $extVersion"
           Add-Content -Path $env:GITHUB_ENV -Value "ExtensionVersion=$extVersion"
 
