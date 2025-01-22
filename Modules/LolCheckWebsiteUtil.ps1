@@ -148,8 +148,12 @@ function PrintGenericTestResultXml{
     $errorResults = $testResultList | Where-Object {$_.Error}
     $numberOfFailed = 0
     if ($null -ne $errorResults){
-        Write-Warning "Errors"
-        $numberOfFailed = $errorResults.Count
+        if ($errorResults -is [system.array]){
+            $numberOfFailed = $errorResults.Count
+        } else {
+            $numberOfFailed = 1
+        }
+        Write-Warning "Errors $numberOfFailed"        
     }
 
     $uri = [System.Uri]$baseUrl
@@ -187,7 +191,14 @@ function PrintGenericTestResultXml{
     $xmlWriter.WriteAttributeString('tests', $testResultList.Count)
     $xmlWriter.WriteAttributeString('timestamp', (Get-Date -Format "yyyy-MM-ddTHH:mm:ss"))
 
-    $totalNumber = $testResultList.Count
+    $totalNumber = 0
+    if ($null -ne $testResultList){
+        #if ($testResultList -is [system.array]){
+            $totalNumber = $testResultList.Count
+        #} else {
+        #    $totalNumber = 1
+        #}
+    }
     $iterator = 1
     $procentageCompleteOld = 0
     $lastWrittenProcentage = 0
@@ -215,8 +226,11 @@ function PrintGenericTestResultXml{
             $xmlWriter.WriteEndElement() #/testcase
         }
 
+        #$iterator
+        #$totalNumber
         $procentageComplete = [math]::Truncate(($iterator / $totalNumber) * 100)
         if ($procentageComplete -ne $procentageCompleteOld){
+            #$procentageComplete
             Write-Progress -Activity "Write test result XML" -Status "$procentageComplete% Complete:" -PercentComplete $procentageComplete;
             $procentageCompleteOld = $procentageComplete
         }

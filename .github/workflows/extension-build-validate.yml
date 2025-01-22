@@ -1,0 +1,47 @@
+name: Build and validate Azure DevOps extension
+
+on:
+  push:
+  workflow_dispatch: # Allow manuel trigger of the workflow
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the Repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Get extension version
+        shell: pwsh
+        run: |
+          $version = (Get-Content src/vss-extension.json) -join "`n" | ConvertFrom-Json | Select -ExpandProperty "version"
+          $buildNumber = $env:GITHUB_RUN_NUMBER
+          $extVersion = "v$version-$buildNumber"
+          Write-Host "Try to set VERSION to $version"
+          Add-Content -Path $env:GITHUB_ENV -Value "VERSION=$version"
+          Write-Host "Try to set EXTENSION_VERSION to $extVersion"
+          Add-Content -Path $env:GITHUB_ENV -Value "EXTENSION_VERSION=$extVersion"
+
+      - name: Copy scripts
+        shell: pwsh
+        run: |
+          ./BuildScripts/CopyScripts.ps1
+
+      - name: Install tfx-cli
+        run: npm install -g tfx-cli
+
+      # - name: tfx extension create help
+      #   run: tfx extension create --help
+
+      - name: Set extension filename variable
+        run: echo "VsixFileName=checkwebsite-extension-$EXTENSION_VERSION.vsix" >> $GITHUB_ENV
+
+      # - name: Show VsixFileName
+      #   run: echo "The value of VsixFileName is $VsixFileName"
+
+      # Step 5: Package the extension
+      - name: Package Extension
+        run: tfx extension isvalid --root "src" --manifests "vss-extension.json" --outputPath $VsixFileName --json
+
