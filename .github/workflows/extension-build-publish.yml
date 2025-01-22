@@ -40,8 +40,7 @@ jobs:
       # Step 5: Package the extension
       - name: Package Extension
         run: tfx extension create \
-          --manifest-globs vss-extension.json \
-          --root src \
+          --manifest src/vss-extension.json \
           --json
 
       # # Step 2: Set up Node.js environment
