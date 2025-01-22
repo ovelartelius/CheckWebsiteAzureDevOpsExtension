@@ -20,10 +20,10 @@ jobs:
 
       - name: Execute PowerShell Script
         shell: pwsh
-        env:
-          MY_SECRET: ${{ secrets.MY_SECRET }}
+        # env:
+        #   MY_SECRET: ${{ secrets.MY_SECRET }}
         run: |
-          $version = (Get-Content vss-extension.json) -join "`n" | ConvertFrom-Json | Select -ExpandProperty "version"
+          $version = (Get-Content src/vss-extension.json) -join "`n" | ConvertFrom-Json | Select -ExpandProperty "version"
           $extVersion = "v$version-$(Build.BuildNumber)"
           Write-Host "Try to set ExtensionVersion to $extVersion"
           Add-Content -Path $env:GITHUB_ENV -Value "ExtensionVersion=$extVersion"
